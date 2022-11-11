@@ -1,68 +1,59 @@
-class Users {
-  books;
-  constructor(name, lastName, city) {
+class Costumers {
+  constructor(name, age) {
     this.name = name;
-    this.lastName = lastName;
-    this.city = city;
-    this.books = [];
+    this.age = age;
+    this.arrProduct = [];
   }
-  addBook(book) {
-    if (book.borrow == "True") {
-      this.books.push(book);
+  addPhone(phone) {
+    this.arrProduct.push(phone);
+  }
+  addComputer(computer) {
+    this.arrProduct.push(computer);
+  }
+}
+
+class Phone {
+  #price;
+  constructor(type, num) {
+    this.type = type;
+    this.num = num;
+    this.#price = this.#definePrice();
+  }
+  #definePrice() {
+    if (this.type == "Iphone") {
+      return Number(this.num * 1000);
+    } else if (this.type == "Samsung") {
+      return Number(this.num * 100);
     }
   }
 }
 
-class Bilan {
-  constructor() {
-    this.user = [];
+class Computer extends Phone {
+  constructor(type, num, mobile) {
+    super(type, num, mobile);
+    this.mobile = mobile;
+    this.price = this.totalPriceandTaxe();
   }
-  addUser(user) {
-    this.user.push(user);
-  }
-  printArrBooks() {
-    for (let i = 0; i < this.user.length; i++) {
-      console.log(this.user[i].books);
+
+  totalPriceandTaxe() {
+    let taxe = 200;
+    if (this.type == "Asus") {
+      return Number(this.num * 1000) + taxe;
+    } else if (this.type == "Mac") {
+      return Number(this.num * 100) + taxe;
     }
   }
 }
 
-class Books {
-  constructor(name, author, borrow) {
-    this.bookName = name;
-    this.author = author;
-    this.borrow = borrow;
-  }
-}
-
-let a = new Users("daniel", "Ohana", "Netanya");
-let b = new Users("shany", "Ohana", "Netanya");
-
-let book1 = new Books("gensis", "god", "True");
-let book2 = new Books("exodus", "god", "False");
-let book3 = new Books("levitiv", "god", "True");
-let book4 = new Books("numbers", "god", "False");
-let book5 = new Books("deteronome", "god", "True");
-
-let book6 = new Books("shmouel", "god", "True");
-let book7 = new Books("Iyov", "god", "False");
-let book8 = new Books("Ovadia", "god", "True");
-let book9 = new Books("Daniel", "god", "False");
-let book10 = new Books("Yoel", "god", "True");
-
-a.addBook(book1);
-a.addBook(book2);
-a.addBook(book3);
-a.addBook(book4);
-a.addBook(book5);
-b.addBook(book6);
-b.addBook(book7);
-b.addBook(book8);
-b.addBook(book9);
-b.addBook(book10);
-
-let bilan1 = new Bilan();
-
-bilan1.addUser(a);
-bilan1.addUser(b);
-bilan1.printArrBooks();
+let costumer1 = new Costumers("Daniel", 24);
+let costumer2 = new Costumers("Shany", 21);
+let phone1 = new Phone("Iphone", 3);
+let phone2 = new Phone("Samsung", 5);
+let computer1 = new Computer("Asus", 4, "true");
+let computer2 = new Computer("Mac", 2, "False");
+costumer1.addPhone(phone1);
+costumer2.addPhone(phone2);
+costumer1.addComputer(computer1);
+costumer2.addComputer(computer2);
+console.log(costumer1);
+console.log(costumer2);
