@@ -1,59 +1,41 @@
-class Costumers {
-  constructor(name, age) {
-    this.name = name;
-    this.age = age;
-    this.arrProduct = [];
-  }
-  addPhone(phone) {
-    this.arrProduct.push(phone);
-  }
-  addComputer(computer) {
-    this.arrProduct.push(computer);
-  }
-}
+let promise1 = fetch("https://jsonplaceholder.typicode.com/posts");
+promise1.then((response) => response.json()).then(arrPosts);
 
-class Phone {
-  #price;
-  constructor(type, num) {
-    this.type = type;
-    this.num = num;
-    this.#price = this.#definePrice();
-  }
-  #definePrice() {
-    if (this.type == "Iphone") {
-      return Number(this.num * 1000);
-    } else if (this.type == "Samsung") {
-      return Number(this.num * 100);
+let promise2 = fetch("https://jsonplaceholder.typicode.com/comments");
+promise2
+  .then((response) => response.json())
+  .then(arrComments)
+  .then(displayPostAndComment);
+
+let arrPost = [];
+let arrComment = [];
+
+function arrPosts(array) {
+  array.forEach((element) => {
+    if (element.id < 4) {
+      console.log(element);
+      arrPost.push(element.body);
     }
-  }
+  });
 }
 
-class Computer extends Phone {
-  constructor(type, num, mobile) {
-    super(type, num, mobile);
-    this.mobile = mobile;
-    this.price = this.totalPriceandTaxe();
-  }
-
-  totalPriceandTaxe() {
-    let taxe = 200;
-    if (this.type == "Asus") {
-      return Number(this.num * 1000) + taxe;
-    } else if (this.type == "Mac") {
-      return Number(this.num * 100) + taxe;
+function arrComments(array) {
+  array.forEach((element) => {
+    if (element.id < 4) {
+      console.log(element);
+      arrComment.push(element.body);
     }
-  }
+  });
 }
 
-let costumer1 = new Costumers("Daniel", 24);
-let costumer2 = new Costumers("Shany", 21);
-let phone1 = new Phone("Iphone", 3);
-let phone2 = new Phone("Samsung", 5);
-let computer1 = new Computer("Asus", 4, "true");
-let computer2 = new Computer("Mac", 2, "False");
-costumer1.addPhone(phone1);
-costumer2.addPhone(phone2);
-costumer1.addComputer(computer1);
-costumer2.addComputer(computer2);
-console.log(costumer1);
-console.log(costumer2);
+function displayPostAndComment() {
+  let postElement = document.createElement("ul");
+  let i = 0;
+  arrPost.forEach((element) => {
+    let newLi = document.createElement("li");
+    newLi.innerText = element + " post : " + arrComment[i];
+    i = i + 1;
+    postElement.appendChild(newLi);
+  });
+  document.body.appendChild(postElement);
+}
